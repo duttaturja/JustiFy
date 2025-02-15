@@ -1,0 +1,52 @@
+<ul>
+    <li class="mb-4">
+      <a href="#" class="flex items-center space-x-2 hover:text-blue-500">
+        <!-- Notifications icon -->
+        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M12 2a7 7 0 0 1 7 7v5h1a1 1 0 0 1 0 2h-16a1 1 0 0 1 0-2h1v-5a7 7 0 0 1 7-7z" />
+        </svg>
+        <span>Notifications</span>
+      </a>
+    </li>
+    <li class="mb-4">
+      <a href="#" class="flex items-center space-x-2 hover:text-blue-500">
+        <!-- Followers icon -->
+        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M16 11a4 4 0 1 0-8 0 4 4 0 0 0 8 0zm-9 8c0-3 3-5 5-5s5 2 5 5v1h-10v-1z" />
+        </svg>
+        <span>Followers</span>
+      </a>
+    </li>
+    <li class="mb-4">
+      <a href="#" class="flex items-center space-x-2 hover:text-blue-500">
+        <!-- My Posts icon -->
+        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M4 4h16v2h-16v-2zm0 4h16v2h-16v-2zm0 4h10v2h-10v-2z" />
+        </svg>
+        <span>My Posts</span>
+      </a>
+    </li>
+    <li class="mb-4">
+      <a href="{% url 'user:profile' %}" class="flex items-center space-x-2 hover:text-blue-500">
+        {% if user.is_authenticated and user.profile.profile_image %}
+        <img src="{{ user.profile.profile_image.url }}" alt="Profile" class="w-6 h-6 rounded-full" />
+        {% else %}
+        <!-- Profile icon fallback -->
+        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5zm0 2c-3.33 0-10 1.67-10 5v3h20v-3c0-3.33-6.67-5-10-5z" />
+        </svg>
+        {% endif %}
+        <span>Profile</span>
+      </a>
+    </li>
+    <li>
+      <a href="#" class="flex items-center space-x-2 hover:text-blue-500">
+        <!-- Settings icon -->
+        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M12 8a4 4 0 1 1 0 8 4 4 0 0 1 0-8zm-8 4a8 8 0 0 1 1-4l-2-3 3-2a8 8 0 0 1 4-1l1-4h4l1 4a8 8 0 0 1 4 1l3 2-2 3a8 8 0 0 1 1 4l4 1v4l-4 1a8 8 0 0 1-1 4l2 3-3 2a8 8 0 0 1-4 1l-1 4h-4l-1-4a8 8 0 0 1-4-1l-3 2 2-3a8 8 0 0 1-1-4l-4-1v-4l4-1z" />
+        </svg>
+        <span>Settings</span>
+      </a>
+    </li>
+  </ul>
+  

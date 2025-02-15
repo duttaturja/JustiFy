@@ -162,10 +162,10 @@ JustiFy/
 │   ├── models.py
 │   ├── tests.py
 │   └── views.py
-├── static/              # Static files (CSS, JavaScript, images)
+├── static/              # Static files (CSS, images, JavaScript)
 │   ├── css/
-│   ├── js/
-│   └── images/
+│   ├── images/
+│   └── js/
 ├── templates/           # HTML templates
 │   ├── base.html
 │   ├── errors/          # Error templates
