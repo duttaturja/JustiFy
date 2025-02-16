@@ -7,7 +7,7 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 
 from .forms import CustomUserCreationForm, CustomAuthenticationForm, EditUserForm, EditProfileForm
-from .models import CustomUser
+from .models import CustomUser, Profile
 from .tokens import generate_verification_token, verify_verification_token
 
 def register(request):
@@ -77,9 +77,12 @@ def verify_email(request, token):
 @login_required
 def edit_profile(request):
     user = request.user
+    # Fallback for missing profile
+    profile, _ = Profile.objects.get_or_create(user=user)
+
     if request.method == "POST":
         user_form = EditUserForm(request.POST, instance=user)
-        profile_form = EditProfileForm(request.POST, request.FILES, instance=user.profile)
+        profile_form = EditProfileForm(request.POST, request.FILES, instance=profile)
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
             profile_form.save()
@@ -87,5 +90,9 @@ def edit_profile(request):
             return redirect("user:profile")
     else:
         user_form = EditUserForm(instance=user)
-        profile_form = EditProfileForm(instance=user.profile)
-    return render(request, "user/edit_profile.html", {"user_form": user_form, "profile_form": profile_form})
+        profile_form = EditProfileForm(instance=profile)
+
+    return render(request, "user/edit_profile.html", {
+        "user_form": user_form,
+        "profile_form": profile_form,
+    })

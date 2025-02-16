@@ -42,7 +42,7 @@ DJANGO_APPS = [
 ]
 
 LOCAL_APPS = [
-    'user',
+    'user.apps.UserConfig',
     'crime',
 ]
 
@@ -151,7 +151,7 @@ EMAIL_USE_TLS = True
 
 EMAIL_HOST_USER = 'duttaturja@gmail.com'
 
-EMAIL_HOST_PASSWORD = 'h-8@7Zyv3lGbKbH'
+EMAIL_HOST_PASSWORD = 'evak hokr ummu heuy'
 
 DEFAULT_FROM_EMAIL = 'JustiFy <duttaturja@gmail.com>'
 
