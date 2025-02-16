@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}Login - WebXtreme{% endblock %}
+{% block content %}
+<div class="max-w-lg mx-auto mt-10 p-8 bg-white dark:bg-gray-800 rounded-lg shadow-lg">
+  <h2 class="text-3xl font-bold mb-6 text-center">Welcome Back</h2>
+  <form method="post">
+    {% csrf_token %}
+    <div class="mb-4">
+      <label for="id_username" class="block mb-2">Email</label>
+      <input type="email" name="username" id="id_username" class="w-full p-3 rounded border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100" required>
+    </div>
+    <div class="mb-6">
+      <label for="id_password" class="block mb-2">Password</label>
+      <input type="password" name="password" id="id_password" class="w-full p-3 rounded border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100" required>
+    </div>
+    <button type="submit" class="w-full py-3 bg-blue-600 text-white rounded hover:bg-blue-700 transition duration-200">Login</button>
+  </form>
+  <p class="mt-4 text-center text-sm text-gray-600 dark:text-gray-400">Don't have an account? <a href="{% url 'user:register' %}" class="text-blue-600 dark:text-blue-400">Register here</a>.</p>
+</div>
+{% endblock %}

@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block title %}Welcome to JustiFy{% endblock %}
+{% block content %}
+<div class="text-center py-20">
+  <h1 class="text-5xl font-bold mb-4">Welcome to JustiFy</h1>
+  <p class="text-lg mb-8">Your community-driven crime reporting platform.</p>
+  <a href="{% url 'user:register' %}" class="px-6 py-3 bg-blue-500 text-white rounded mr-4">Register</a>
+  <a href="{% url 'user:login' %}" class="px-6 py-3 bg-gray-300 text-gray-800 rounded">Login</a>
+</div>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}Edit Profile - WebXtreme{% endblock %}
+{% block content %}
+<div class="max-w-3xl mx-auto mt-10 p-8 bg-white dark:bg-gray-800 rounded-lg shadow-lg">
+  <h2 class="text-3xl font-bold mb-6 text-center">Edit Profile</h2>
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="mb-4">
+      <label for="id_full_name" class="block mb-2">Full Name</label>
+      <input type="text" name="full_name" id="id_full_name" value="{{ user.get_full_name }}" class="w-full p-3 rounded border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100">
+    </div>
+    <div class="mb-4">
+      <label for="id_phone" class="block mb-2">Phone</label>
+      <input type="text" name="phone" id="id_phone" value="{{ user.phone }}" class="w-full p-3 rounded border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100">
+    </div>
+    <div class="mb-4">
+      <label for="id_profile_image" class="block mb-2">Profile Image</label>
+      <input type="file" name="profile_image" id="id_profile_image" class="w-full p-3 rounded border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100">
+    </div>
+    <div class="mb-4">
+      <label for="id_bio" class="block mb-2">Bio</label>
+      <textarea name="bio" id="id_bio" rows="4" class="w-full p-3 rounded border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100">{{ user.profile.bio }}</textarea>
+    </div>
+    <button type="submit" class="w-full py-3 bg-blue-600 text-white rounded hover:bg-blue-700 transition">Save Changes</button>
+  </form>
+</div>
+{% endblock %}

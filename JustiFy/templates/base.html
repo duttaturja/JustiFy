@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{% block title %}WebXtreme{% endblock %}</title>
+    <!-- Tailwind CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <style>
+      /* On mobile, add bottom margin for main content so the fixed bottom nav doesn't cover it */
+      @media (max-width: 767px) {
+        main {
+          margin-bottom: 70px;
+        }
+      }
+    </style>
+    <script>
+      function toggleDarkMode() {
+        const html = document.documentElement;
+        const toggler = document.getElementById("dark-mode-toggler");
+        if (html.classList.contains("dark")) {
+          html.classList.remove("dark");
+          toggler.textContent = "brightness_2"; // Moon icon for light mode
+          toggler.style.color = "#1f2937"; // dark gray color
+        } else {
+          html.classList.add("dark");
+          toggler.textContent = "wb_sunny"; // Sun icon for dark mode
+          toggler.style.color = "#fbbf24"; // yellow color
+        }
+        localStorage.setItem("theme", html.classList.contains("dark") ? "dark" : "light");
+      }
+      document.addEventListener("DOMContentLoaded", function () {
+        const toggler = document.getElementById("dark-mode-toggler");
+        if (localStorage.getItem("theme") === "dark") {
+          document.documentElement.classList.add("dark");
+          toggler.textContent = "wb_sunny";
+          toggler.style.color = "#fbbf24";
+        }
+      });
+    </script>
+  </head>
+  <body class="flex flex-col min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200">
+    <!-- Header: fixed at top with height defined and dark/light toggler on far right -->
+    <header class="fixed top-0 left-0 right-0 h-16 flex justify-between items-center p-4 shadow-md bg-white dark:bg-gray-800 z-50">
+      <div>
+        <a href="" class="text-xl font-bold">JustiFy</a>
+      </div>
+      <div class="ml-auto">
+        <button onclick="toggleDarkMode()" class="p-2 focus:outline-none">
+          <span id="dark-mode-toggler" class="material-icons" style="font-size: 24px; color: #1f2937;">brightness_2</span>
+        </button>
+      </div>
+    </header>
+    
+    <!-- Content container with top padding equal to header height -->
+    <div class="flex flex-1 pt-16">
+      <!-- Desktop Sidebar: sticky so it remains below header -->
+      <aside class="hidden md:block w-64 p-4 border-r bg-white dark:bg-gray-800 sticky top-16 z-40">
+        {% include "fragments/sidebar.html" %}
+      </aside>
+      <!-- Main Content -->
+      <main class="flex-1 p-4">
+        {% block content %}{% endblock %}
+      </main>
+    </div>
+    
+    <!-- Footer: sits in normal flow at the bottom -->
+    <footer class="bg-gray-200 dark:bg-gray-700 py-4">
+      {% include "fragments/footer.html" %}
+    </footer>
+    
+    <!-- Mobile Bottom Navigation -->
+    <nav class="fixed bottom-0 left-0 right-0 md:hidden bg-white dark:bg-gray-800 border-t z-50">
+      <div class="flex justify-around p-2">
+        <a href="" class="flex flex-col items-center">
+          <span class="material-icons">home</span>
+        </a>
+        <a href="" class="flex flex-col items-center">
+          <span class="material-icons">notifications</span>
+        </a>
+        <a href="" class="flex flex-col items-center">
+          <span class="material-icons">group</span>
+        </a>
+        <a href="" class="flex flex-col items-center">
+          <span class="material-icons">article</span>
+        </a>
+        <a href="{% url 'user:profile' %}" class="flex flex-col items-center">
+          {% if user.is_authenticated and user.profile.profile_image %}
+            <img src="{{ user.profile.profile_image.url }}" alt="Profile" class="w-6 h-6 rounded-full" />
+          {% else %}
+            <span class="material-icons">person</span>
+          {% endif %}
+        </a>
+        <a href="" class="flex flex-col items-center">
+          <span class="material-icons">settings</span>
+        </a>
+      </div>
+    </nav>
+  </body>
+</html>

@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block title %}Verification Email Sent - WebXtreme{% endblock %}
+{% block content %}
+<div class="max-w-lg mx-auto mt-10 p-8 bg-white dark:bg-gray-800 rounded-lg shadow-lg text-center">
+  <i class="fas fa-envelope fa-4x text-blue-500 mb-4"></i>
+  <h2 class="text-3xl font-bold mb-4">Verification Email Sent</h2>
+  <p class="mb-6">We have sent a verification link to your email address. Please check your inbox and follow the instructions to verify your account.</p>
+  <a href="{% url 'user:profile' %}" class="px-6 py-3 bg-blue-600 text-white rounded hover:bg-blue-700 transition">Return to Profile</a>
+</div>
+{% endblock %}
