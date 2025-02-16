@@ -173,17 +173,18 @@ JustiFy/
 │   └── crime/           # Crime app templates
 ├── .gitignore           # Git ignore file
 ├── db.sqlite3           # SQLite database file
+├── LICENSE              # Apache License 2.0
 ├── manage.py            # Django management script
 └── requirements.txt    # Python dependencies
 ```
 
-Contributing
+## Contributing
 I am developing JustiFy as a solo project, but contributions are welcome! If you find bugs or have suggestions for improvements, please open an issue or submit a pull request.
 
-License
-This project is licensed under the Apache License 2.0.
+## License
+This project is licensed under the [Apache License 2.0](LICENSE).
 
-Contact
+## Contact
 Developer: Turja Dutta
 GitHub: duttaturja
 Email: duttaturja@gmail.com
