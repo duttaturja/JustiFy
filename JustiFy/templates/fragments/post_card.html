@@ -1,0 +1,32 @@
+<div class="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
+    <a href="{% url 'crime:post_detail' post.pk %}">
+      {% if post.image %}
+        <img src="{{ post.image.url }}" alt="{{ post.title }}" class="w-full h-48 object-cover">
+      {% endif %}
+      <div class="p-4">
+        <h2 class="text-xl font-semibold mb-2">{{ post.title }}</h2>
+        <p class="text-gray-600 dark:text-gray-400 mb-2">{{ post.description|truncatewords:20 }}</p>
+        <p class="text-sm text-gray-500 dark:text-gray-400">Posted on: {{ post.post_time|date:"M d, Y H:i" }}</p>
+      </div>
+    </a>
+    <div class="px-4 py-2 flex justify-between items-center border-t border-gray-200 dark:border-gray-700">
+      <div class="flex space-x-4">
+        <a href="{% url 'crime:vote_post' post.pk 'up' %}" title="Upvote">
+          <span class="material-icons text-green-500">thumb_up</span>
+        </a>
+        <a href="{% url 'crime:vote_post' post.pk 'down' %}" title="Downvote">
+          <span class="material-icons text-red-500">thumb_down</span>
+        </a>
+        
+        <a href="{% url 'crime:save_post' post.pk %}" title="Save">
+          <span class="material-icons">bookmark</span>
+        </a>
+      </div>
+      <div>
+        <span class="text-sm text-gray-600 dark:text-gray-400">
+          {{ post.upvote_count|add:post.downvote_count|default:"0" }}
+        </span>
+      </div>
+    </div>
+  </div>
+  

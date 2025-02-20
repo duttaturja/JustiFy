@@ -159,3 +159,6 @@ DEFAULT_FROM_EMAIL = 'JustiFy <duttaturja@gmail.com>'
 # Admin Email Settings
 
 ADMIN_EMAIL = 'admin@justify.com'
+
+
+
