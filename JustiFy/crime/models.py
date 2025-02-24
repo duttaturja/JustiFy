@@ -15,11 +15,29 @@ class CrimePost(models.Model):
     post_time = models.DateTimeField(default=timezone.now)
     crime_time = models.DateTimeField()
     share_count = models.PositiveIntegerField(default=0)
-    upvote_count = models.IntegerField(default=0)
-    downvote_count = models.IntegerField(default=0)
-
     def __str__(self):
         return self.title
+
+    def get_absolute_url(self):
+        from django.urls import reverse
+        return reverse('crime:post_detail', kwargs={'pk': self.pk})
+    
+    @property
+    def upvote_count(self):
+        return self.votes.filter(vote_type=1).count()
+
+    @property
+    def downvote_count(self):
+        return self.votes.filter(vote_type=-1).count()
+
+
+class SharedPost(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="shared_posts")
+    original_post = models.ForeignKey(CrimePost, on_delete=models.CASCADE, related_name="shares")
+    shared_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user} shared {self.original_post}"
 
 class Comment(models.Model):
     crime_post = models.ForeignKey(CrimePost, on_delete=models.CASCADE, related_name="comments")
@@ -31,6 +49,18 @@ class Comment(models.Model):
     def __str__(self):
         return f"Comment by {self.user} on {self.crime_post}"
 
+
+class SavedPost(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="saved_posts")
+    crime_post = models.ForeignKey(CrimePost, on_delete=models.CASCADE, related_name="saves")
+    saved_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('user', 'crime_post')
+
+    def __str__(self):
+        return f"{self.user} saved {self.crime_post}"
+    
 class Vote(models.Model):
     VOTE_CHOICES = (
         (1, 'Upvote'),
@@ -44,26 +74,4 @@ class Vote(models.Model):
         unique_together = ('user', 'crime_post')
 
     def __str__(self):
-        return f"{self.user} voted {self.vote_type} on {self.crime_post}"
-
-class Follow(models.Model):
-    follower = models.ForeignKey(User, on_delete=models.CASCADE, related_name="following")
-    following = models.ForeignKey(User, on_delete=models.CASCADE, related_name="followers")
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    class Meta:
-        unique_together = ('follower', 'following')
-
-    def __str__(self):
-        return f"{self.follower} follows {self.following}"
-
-class SavedPost(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="saved_posts")
-    crime_post = models.ForeignKey(CrimePost, on_delete=models.CASCADE, related_name="saves")
-    saved_at = models.DateTimeField(auto_now_add=True)
-
-    class Meta:
-        unique_together = ('user', 'crime_post')
-
-    def __str__(self):
-        return f"{self.user} saved {self.crime_post}"
+        return f"{self.user} voted {self.get_vote_type_display()} on {self.crime_post}"

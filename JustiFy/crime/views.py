@@ -1,8 +1,46 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .models import CrimePost, Comment, Vote, SavedPost
+from .models import CrimePost, Comment, SharedPost, SavedPost, Vote
 from .forms import CrimePostForm, CommentForm
+
+@login_required
+def vote_post(request, pk, vote_type):
+    post = get_object_or_404(CrimePost, pk=pk)
+    # Expect vote_type to be 'up' or 'down'
+    try:
+        vote = Vote.objects.get(user=request.user, crime_post=post)
+        # If the vote already exists and matches the request, do nothing.
+        if vote_type == 'up' and vote.vote_type == 1:
+            messages.info(request, "You already upvoted this post.")
+        elif vote_type == 'down' and vote.vote_type == -1:
+            messages.info(request, "You already downvoted this post.")
+        else:
+            # Otherwise, update the vote_type.
+            vote.vote_type = 1 if vote_type == 'up' else -1
+            vote.save()
+            messages.success(request, "Your vote has been updated.")
+    except Vote.DoesNotExist:
+        # Create a new vote
+        new_vote = Vote.objects.create(
+            user=request.user,
+            crime_post=post,
+            vote_type=1 if vote_type == 'up' else -1
+        )
+        messages.success(request, "Your vote has been recorded.")
+    
+    # Redirect back to the post detail page.
+    return redirect(post.get_absolute_url())
+
+@login_required
+def share_post(request, pk):
+    post = get_object_or_404(CrimePost, pk=pk)
+    # Create a shared post record
+    SharedPost.objects.create(user=request.user, original_post=post)
+    post.share_count += 1
+    post.save()
+    messages.success(request, "Post shared successfully within the website!")
+    return redirect('crime:post_detail', pk=pk)
 
 @login_required
 def create_crime_post(request):
@@ -50,22 +88,6 @@ def add_comment(request, pk):
                     comment.parent = parent_comment
             comment.save()
             messages.success(request, "Comment added successfully.")
-    return redirect('crime:post_detail', pk=pk)
-
-@login_required
-def vote_post(request, pk, vote_type):
-    post = get_object_or_404(CrimePost, pk=pk)
-    # vote_type should be either 'up' or 'down'
-    vote, created = Vote.objects.get_or_create(user=request.user, crime_post=post)
-    if vote_type == 'up':
-        vote.vote_type = 1
-    elif vote_type == 'down':
-        vote.vote_type = -1
-    vote.save()
-    # Recalculate vote counts
-    post.upvote_count = Vote.objects.filter(crime_post=post, vote_type=1).count()
-    post.downvote_count = Vote.objects.filter(crime_post=post, vote_type=-1).count()
-    post.save()
     return redirect('crime:post_detail', pk=pk)
 
 @login_required

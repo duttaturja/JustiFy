@@ -11,4 +11,5 @@ urlpatterns = [
     path("send-verification-email/", views.send_verification_email, name="send_verification_email"),
     path("verify-email/<str:token>/", views.verify_email, name="verify_email"),
     path("edit_profile/", views.edit_profile, name="edit_profile"),
+    path('shared-posts/', views.shared_posts, name='shared_posts'),
 ]
