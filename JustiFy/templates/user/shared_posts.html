@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}My Shared Posts - WebXtreme{% endblock %}
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+  <h1 class="text-3xl font-bold mb-6 text-center">My Shared Posts</h1>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    {% for shared in shared_posts %}
+      <div class="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
+        <a href="{{ shared.original_post.get_absolute_url }}">
+          {% if shared.original_post.image %}
+            <img src="{{ shared.original_post.image.url }}" alt="{{ shared.original_post.title }}" class="w-full h-48 object-cover">
+          {% endif %}
+          <div class="p-4">
+            <h2 class="text-xl font-semibold mb-2">{{ shared.original_post.title }}</h2>
+            <p class="text-gray-600 dark:text-gray-400 mb-2">{{ shared.original_post.description|truncatewords:20 }}</p>
+            <p class="text-sm text-gray-500 dark:text-gray-400">Shared on: {{ shared.shared_at|date:"M d, Y H:i" }}</p>
+          </div>
+        </a>
+      </div>
+    {% empty %}
+      <p class="text-center text-gray-600 dark:text-gray-400">You haven't shared any posts yet.</p>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

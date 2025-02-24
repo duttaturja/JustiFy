@@ -10,6 +10,14 @@ from .forms import CustomUserCreationForm, CustomAuthenticationForm, EditUserFor
 from .models import CustomUser, Profile
 from .tokens import generate_verification_token, verify_verification_token
 
+from django.contrib.auth.decorators import login_required
+from crime.models import SharedPost
+
+@login_required
+def shared_posts(request):
+    shared = SharedPost.objects.filter(user=request.user).order_by('-shared_at')
+    return render(request, "user/shared_posts.html", {'shared_posts': shared})
+
 def register(request):
     if request.method == "POST":
         form = CustomUserCreationForm(request.POST)

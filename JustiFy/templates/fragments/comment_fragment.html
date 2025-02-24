@@ -1,0 +1,26 @@
+<div class="mb-4 border-b border-gray-200 dark:border-gray-700 pb-2">
+    <p class="text-sm text-gray-800 dark:text-gray-200">
+      <strong>{{ comment.user.email }}</strong> - {{ comment.created_at|date:"M d, Y H:i" }}
+    </p>
+    <p class="text-gray-700 dark:text-gray-300">{{ comment.text }}</p>
+    {% if comment.replies.all %}
+      <div class="ml-4 mt-2">
+        {% for reply in comment.replies.all %}
+          <div class="mb-2">
+            <p class="text-xs text-gray-600 dark:text-gray-400">
+              <strong>{{ reply.user.email }}</strong> - {{ reply.created_at|date:"M d, Y H:i" }}
+            </p>
+            <p class="text-gray-700 dark:text-gray-300">{{ reply.text }}</p>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+    {% if user.is_authenticated %}
+      <form action="{% url 'crime:add_comment' post.pk %}" method="post" class="mt-2">
+        {% csrf_token %}
+        <input type="hidden" name="parent_id" value="{{ comment.id }}">
+        <input type="text" name="text" class="w-full p-2 border border-gray-300 dark:border-gray-600 rounded bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100" placeholder="Reply to this comment...">
+      </form>
+    {% endif %}
+  </div>
+  

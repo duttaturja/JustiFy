@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %}Crime Feed - WebXtreme{% endblock %}
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+  <h1 class="text-3xl font-bold mb-6 text-center">Crime Feed</h1>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    {% for post in posts %}
+      {% include "fragments/post_card.html" with post=post %}
+    {% empty %}
+      <p class="text-center text-gray-600 dark:text-gray-400">No crime posts available.</p>
+    {% endfor %}
+  </div>
+  <div class="mt-8 text-center">
+    <a href="{% url 'crime:create_post' %}" class="px-6 py-3 bg-blue-600 text-white rounded hover:bg-blue-700 transition">
+      Create New Crime Post
+    </a>
+  </div>
+</div>
+{% endblock %}

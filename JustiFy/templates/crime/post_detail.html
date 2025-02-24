@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% block title %}{{ post.title }} - Crime Post - WebXtreme{% endblock %}
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+  <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
+    <h1 class="text-3xl font-bold mb-4">{{ post.title }}</h1>
+    <div class="mb-4">
+      {% if post.image %}
+        <img src="{{ post.image.url }}" alt="{{ post.title }}" class="w-full h-64 object-cover rounded">
+      {% endif %}
+      {% if post.video %}
+        <video controls class="w-full h-64 mt-4 rounded">
+          <source src="{{ post.video.url }}" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+      {% endif %}
+    </div>
+    <p class="mb-4 text-gray-700 dark:text-gray-300">{{ post.description }}</p>
+    <p class="text-sm text-gray-500 dark:text-gray-400 mb-2">Division: {{ post.division }}, District: {{ post.district }}</p>
+    <p class="text-sm text-gray-500 dark:text-gray-400 mb-2">Crime Time: {{ post.crime_time|date:"M d, Y H:i" }}</p>
+    <p class="text-sm text-gray-500 dark:text-gray-400">Posted on: {{ post.post_time|date:"M d, Y H:i" }}</p>
+    
+    <!-- Action Buttons -->
+    <div class="mt-4 flex space-x-4">
+      <a href="{% url 'crime:vote_post' post.pk 'up' %}" title="Upvote">
+        <span class="material-icons text-green-500">thumb_up</span>
+      </a>
+      <a href="{% url 'crime:vote_post' post.pk 'down' %}" title="Downvote">
+        <span class="material-icons text-red-500">thumb_down</span>
+      </a>
+      <a href="{% url 'crime:save_post' post.pk %}" title="Save">
+        <span class="material-icons">bookmark</span>
+      </a>
+    </div>
+    <!-- Vote and Share Counts -->
+    <div class="mt-2">
+      {% if post.upvote_count %}
+        <span class="text-sm text-green-500">Upvotes: {{ post.upvote_count }}</span>
+      {% endif %}
+      {% if post.downvote_count %}
+        <span class="text-sm text-red-500 ml-4">Downvotes: {{ post.downvote_count }}</span>
+      {% endif %}
+      <span class="ml-4 text-sm text-gray-600 dark:text-gray-400">Shares: {{ post.share_count }}</span>
+    </div>
+  </div>
+  
+  <!-- Comments Section (similar to previous design) -->
+  <div class="mt-8 bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
+    <h2 class="text-2xl font-bold mb-4">Comments</h2>
+    {% if user.is_authenticated %}
+    <form action="{% url 'crime:add_comment' post.pk %}" method="post" class="mb-6">
+      {% csrf_token %}
+      <textarea name="text" class="w-full p-3 border border-gray-300 dark:border-gray-600 rounded bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100" rows="3" placeholder="Add a comment..."></textarea>
+      <button type="submit" class="mt-2 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">
+        Post Comment
+      </button>
+    </form>
+    {% else %}
+    <p class="text-gray-600 dark:text-gray-400 mb-4">
+      Please <a href="{% url 'user:login' %}" class="text-blue-600 dark:text-blue-400">login</a> to post a comment.
+    </p>
+    {% endif %}
+    
+    <!-- Loop through Comments and Include Comment Fragment -->
+    <div>
+      {% for comment in comments %}
+        {% include "fragments/comment_fragment.html" with comment=comment post=post %}
+      {% empty %}
+        <p class="text-gray-600 dark:text-gray-400">No comments yet. Be the first to comment!</p>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock %}

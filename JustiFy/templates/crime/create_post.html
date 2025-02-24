@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block title %}Create Crime Post - WebXtreme{% endblock %}
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+  <div class="max-w-2xl mx-auto bg-white dark:bg-gray-800 p-8 rounded-lg shadow">
+    <h1 class="text-3xl font-bold mb-6 text-center">Create a New Crime Post</h1>
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div class="mb-4">
+        <label for="id_title" class="block text-gray-700 dark:text-gray-300">Title</label>
+        <input type="text" name="title" id="id_title" class="w-full p-3 border border-gray-300 dark:border-gray-600 rounded bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100" required>
+      </div>
+      <div class="mb-4">
+        <label for="id_description" class="block text-gray-700 dark:text-gray-300">Description</label>
+        <textarea name="description" id="id_description" rows="4" class="w-full p-3 border border-gray-300 dark:border-gray-600 rounded bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100" required></textarea>
+      </div>
+      <div class="mb-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label for="id_division" class="block text-gray-700 dark:text-gray-300">Division</label>
+          <input type="text" name="division" id="id_division" class="w-full p-3 border border-gray-300 dark:border-gray-600 rounded bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100" required>
+        </div>
+        <div>
+          <label for="id_district" class="block text-gray-700 dark:text-gray-300">District</label>
+          <input type="text" name="district" id="id_district" class="w-full p-3 border border-gray-300 dark:border-gray-600 rounded bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100" required>
+        </div>
+      </div>
+      <div class="mb-4">
+        <label for="id_image" class="block text-gray-700 dark:text-gray-300">Image (required)</label>
+        <input type="file" name="image" id="id_image" class="w-full p-3 border border-gray-300 dark:border-gray-600 rounded bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100" required>
+      </div>
+      <div class="mb-4">
+        <label for="id_video" class="block text-gray-700 dark:text-gray-300">Video (optional)</label>
+        <input type="file" name="video" id="id_video" class="w-full p-3 border border-gray-300 dark:border-gray-600 rounded bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100">
+      </div>
+      <div class="mb-4">
+        <label for="id_crime_time" class="block text-gray-700 dark:text-gray-300">Crime Time</label>
+        <input type="datetime-local" name="crime_time" id="id_crime_time" class="w-full p-3 border border-gray-300 dark:border-gray-600 rounded bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100" required>
+      </div>
+      <button type="submit" class="w-full py-3 bg-blue-600 text-white rounded hover:bg-blue-700 transition">
+        Create Post
+      </button>
+    </form>
+  </div>
+</div>
+{% endblock %}

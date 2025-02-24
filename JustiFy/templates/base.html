@@ -22,12 +22,12 @@
         const toggler = document.getElementById("dark-mode-toggler");
         if (html.classList.contains("dark")) {
           html.classList.remove("dark");
-          toggler.textContent = "brightness_2"; // Moon icon for light mode
-          toggler.style.color = "#1f2937"; // dark gray color
+          toggler.textContent = "brightness_2"; // moon icon
+          toggler.style.color = "#1f2937"; // dark gray
         } else {
           html.classList.add("dark");
-          toggler.textContent = "wb_sunny"; // Sun icon for dark mode
-          toggler.style.color = "#fbbf24"; // yellow color
+          toggler.textContent = "wb_sunny"; // sun icon
+          toggler.style.color = "#fbbf24"; // yellow
         }
         localStorage.setItem("theme", html.classList.contains("dark") ? "dark" : "light");
       }
